@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <data>
+          <record id="action_real_estate" model="ir.actions.act_window">
+              <field name="name">Real Estate</field>
+              <field name="type">ir.actions.act_window</field>
+              <field name="res_model">estate.property</field>
+              <field name="view_mode">tree,form,kanban</field>
+              <field name="help" type="html">
+                  <p class="1">create</p>
+              </field>
+          </record>
+
+         <record id="action_property_type" model="ir.actions.act_window">
+             <field name="name">Property type</field>
+              <field name="type">ir.actions.act_window</field>
+              <field name="res_model">property.type</field>
+              <field name="view_mode">tree,form,kanban</field>
+              <field name="help" type="html">
+                  <p class="1">create</p>
+              </field>
+          </record>
+
+         <record id="action_property_tag" model="ir.actions.act_window">
+             <field name="name">Property tag</field>
+              <field name="type">ir.actions.act_window</field>
+              <field name="res_model">property.tag</field>
+              <field name="view_mode">tree,form,kanban</field>
+              <field name="help" type="html">
+                  <p class="1">create</p>
+              </field>
+          </record>
+
+
+         <menuitem id="estate_menu_root" name="Estate"/>
+         <menuitem id="estate_first_menu_root" name="Advertisement" parent="estate_menu_root"/>
+         <menuitem id="estate_first1_menu_root" name="Properties" parent="estate_first_menu_root" action="action_real_estate"/>
+         <menuitem id="estate_second_menu_root" name="Settings" parent="estate_menu_root"/>
+         <menuitem id="estate_second1_menu_root" name="Property type" parent="estate_second_menu_root" action="action_property_type"/>
+         <menuitem id="estate_second2_menu_root" name="Property tag" parent="estate_second_menu_root" action="action_property_tag"/>
+     </data>
+
+
+</odoo>

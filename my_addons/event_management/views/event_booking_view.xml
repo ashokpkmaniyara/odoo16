@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--tree event_booking view-->
+    <record id="event_booking_tree_view" model="ir.ui.view">
+        <field name="name">event.booking.tree</field>
+        <field name="model">event.booking</field>
+        <field name="arch" type="xml">
+            <tree string="event_booking">
+                <field name="sequence_name"/>
+                <field name="event_type_id"/>
+                <field name="partner_id"/>
+                <field name="booking_date"/>
+                <field name="event_start_date"/>
+                <field name="event_end_date"/>
+                <field name="time_duration"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--form event_booking view-->
+
+    <record id="event_booking_form_view" model="ir.ui.view">
+        <field name="name">event.booking.form</field>
+        <field name="model">event.booking</field>
+        <field name="arch" type="xml">
+            <form string="event_booking">
+                <header>
+                    <button name="button_catering" id="button_catering" data-hotkey="v" string="Catering Service"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': ['|',('booking_state', 'in', ['confirmed','delivered','invoiced','expired']),('catering_creation','=',True)]}"/>
+                    <button name="button_confirm" id="button_confirm" data-hotkey="g" string="Confirm"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                    <button name="button_delivered" id="button_delivered" data-hotkey="v" string="Deliver"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': [('booking_state', 'in', ['draft','delivered','invoiced','expired'])]}"/>
+                    <button name="button_invoiced" id="button_invoiced" data-hotkey="v" string="Invoice"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': ['|',('booking_state', 'in', ['draft','confirmed','invoiced','expired']),('catering_creation', '=', False)]}"/>
+                    <field name="booking_state" widget="statusbar"/>
+                </header>
+                <sheet>
+
+                    <div name="button_box">
+                        <button class="oe_stat_button" type="object" name="catering_smart_button" string="Catering"
+                                icon="fa-book" attrs="{'invisible' : [('record_count','=',0)]}">
+                            <field name="record_count" widget="statinfo" string="Catering" invisible="1"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="invoice_smart_button" string="Invoice"
+                                icon="fa-book"
+                                attrs="{'invisible': ['|',('booking_state', 'in', ['draft','confirmed','delivered']),('catering_creation','=',False)]}">
+                        </button>
+                    </div>
+                    <div>
+                        <field name="is_paid" invisible="1"/>
+                        <widget name="web_ribbon" title="Paid"
+                                attrs="{'invisible': [('is_paid', '=', False)]}"/>
+
+                        <field name="sequence_name" style="font-size:50px;color:black;"/>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <group name="partner_details">
+                            <field name="partner_id" widget="res_partner_many2one"
+                                   context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                                   options="{&quot;always_reload&quot;: True}"
+                                   attrs="{'readonly': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="partner_invoice_id" groups="account.group_delivery_invoice_address"
+                                   context="{'default_type':'invoice'}" options="{&quot;always_reload&quot;: True}"/>
+                            <field name="partner_shipping_id" groups="account.group_delivery_invoice_address"
+                                   context="{'default_type':'delivery'}" options="{&quot;always_reload&quot;: True}"/>
+                            <field name="event_type_id"
+                                   attrs="{'readonly': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_creation" invisible="1"/>
+                        </group>
+
+                        <group>
+                            <field name="booking_date"
+                                   attrs="{'readonly': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="event_start_date"
+                                   attrs="{'readonly': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="event_end_date"
+                                   attrs="{'readonly': [('booking_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="time_duration"/>
+                            <field name="cat_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--action for event booking-->
+
+    <record id="action_event_booking" model="ir.actions.act_window">
+        <field name="name">Event Booking</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">event.booking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Empty, no data here</p>
+        </field>
+    </record>
+
+
+</odoo>

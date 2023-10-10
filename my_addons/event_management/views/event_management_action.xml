@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--menu items for the actions-->
+
+        <menuitem id="event_menu_root" name="Event Management"/>
+        <menuitem id="event_first_menu_root" name="Event Management" parent="event_menu_root"/>
+        <menuitem id="event_first1_menu_root" name="Event Booking" parent="event_first_menu_root"
+                  action="action_event_booking"/>
+        <menuitem id="event_first2_menu_root" name="Event Catering" parent="event_first_menu_root"
+                  action="action_event_catering"/>
+        <menuitem id="event_second_menu_root" name="Configuration" parent="event_menu_root"/>
+        <menuitem id="event_second1_menu_root" name="Services" parent="event_second_menu_root"
+                  action="action_event_services"/>
+        <menuitem id="event_second2_menu_root" name="Event Types" parent="event_second_menu_root"
+                  action="action_event_types"/>
+        <menuitem id="event_second3_menu_root" name="Catering Types" parent="event_second_menu_root"
+                  action="action_event_catering_type"/>
+    </data>
+</odoo>

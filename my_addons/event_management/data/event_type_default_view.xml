@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+        <record id="event_birthday" model="event.type">
+            <field name="name">Birthday</field>
+            <field name="code">001</field>
+            <field name="image" type="base64" file="/home/cybrosys/odoo16/my_addons/event_management/static/img/Birthday.jpg"/>
+        </record>
+        <record id="event_wedding" model="event.type">
+            <field name="name">Wedding</field>
+            <field name="code">002</field>
+            <field name="image" type="base64" file="/home/cybrosys/odoo16/my_addons/event_management/static/img/Wedding.jpg"/>
+        </record>
+        <record id="event_anniversary" model="event.type">
+            <field name="name">Anniversary</field>
+            <field name="code">003</field>
+            <field name="image" type="base64" file="/home/cybrosys/odoo16/my_addons/event_management/static/img/Anniversary.jpg"/>
+        </record>
+        <record id="event_inauguration" model="event.type">
+            <field name="name">Inauguration</field>
+            <field name="code">004</field>
+            <field name="image" type="base64" file="/home/cybrosys/odoo16/my_addons/event_management/static/img/Inauguration.jpg"/>
+        </record>
+    </data>
+</odoo>

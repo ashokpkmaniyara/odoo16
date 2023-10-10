@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--tree event_services view-->
+    <record id="event_services_tree_view" model="ir.ui.view">
+        <field name="name">event.services.tree</field>
+        <field name="model">event.services</field>
+        <field name="arch" type="xml">
+            <tree string="event_services">
+                <field name="name"/>
+                <field name="responsible_person_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--form event_services view-->
+
+    <record id="event_services_form_view" model="ir.ui.view">
+        <field name="name">event.services.form</field>
+        <field name="model">event.services</field>
+        <field name="arch" type="xml">
+            <form string="event_services">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="responsible_person_id"/>
+                    </group>
+                    <field name="child_ids">
+                        <tree editable="bottom" string="services">
+                            <control>
+                                <create name="add_a_line" string="Add a line"/>
+                            </control>
+                            <field name="description"/>
+                            <field name="quantity"/>
+                            <field name="unit_price"/>
+                            <field name="subtotal" sum="Total" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+
+    </record>
+
+    <!--action for event services-->
+
+        <record id="action_event_services" model="ir.actions.act_window">
+            <field name="name">Event Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">event.services</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Empty, no data here</p>
+            </field>
+        </record>
+
+
+</odoo>

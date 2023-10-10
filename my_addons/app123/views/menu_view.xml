@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<odoo>
+
+    <record id="menu_form_view" model="ir.ui.view">
+        <field name="name">Catering</field>
+        <field name="model">manage.menu</field>
+        <field name="arch" type="xml">
+            <form string="catering_form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="image"/>
+                        <field name="uom_id"/>
+                        <field name="unit_price"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_menu" model="ir.actions.act_window">
+        <field name="name">Menu</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">manage.menu</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="1">Empty</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo noupdate="0">
+
+    <!--sequence catering view-->
+
+    <record id="sequence_catering" model="ir.sequence">
+        <field name="name">sequence.catering</field>
+        <field name="code">sequence_catering</field>
+        <field name="prefix">EC00</field>
+        <field name="padding">001</field>
+    </record>
+
+</odoo>

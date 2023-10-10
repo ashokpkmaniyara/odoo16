@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--view for commission plan field in sales person-->
+    <record id="sales_commission_plan_view" model="ir.ui.view">
+        <field name="name">sales.commission.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_totals']"
+                   position="after">
+                    <field name="commission_amount"/>
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

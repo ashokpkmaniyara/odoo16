@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <menuitem id="root" name="Management"/>
+        <menuitem id="root_first" name="Management" parent="root"/>
+        <menuitem id="root_first_one" name="Booking" parent="root_first" action="action_manage"/>
+        <menuitem id="root_first_two" name="Catering" parent="root_first" action="action_Catering"/>
+        <menuitem id="root_second" name="Configuration" parent="root"/>
+        <menuitem id="root_second_one" name="Type" parent="root_second" action="action_type"/>
+        <menuitem id="root_second_two" name="Service" parent="root_second" action="action_service"/>
+        <menuitem id="root_second_three" name="Menu" parent="root_second" action="action_menu"/>
+    </data>
+</odoo>

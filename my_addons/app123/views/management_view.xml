@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="booking_form_view" model="ir.ui.view">
+            <field name="name">booking.form</field>
+            <field name="model">manage.booking</field>
+            <field name="arch" type="xml">
+                <form string="booking">
+                    <header>
+
+                        <button name="button_catering" id="button_catering" data-hotkey="v" string="Catering Service"
+                                class="btn-primary" type="object" context="{'validate_analytic': True}"
+                                attrs="{'invisible': ['|',('state', 'in', ['confirmed','delivered','invoiced','expired']),('catering_creation','=',True)]}"/>
+                        <field name="state" widget="statusbar"/>
+                        <field name="catering_creation" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="type_id"/>
+                                <field name="customer_id" widget="res_partner_many2one"
+                                       context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                                       options="{&quot;always_reload&quot;: True}"/>
+                                <field name="partner_invoice_id" groups="account.group_delivery_invoice_address"
+                                       context="{'default_type':'invoice'}"
+                                       options="{&quot;always_reload&quot;: True}"/>
+                                <field name="partner_shipping_id" groups="account.group_delivery_invoice_address"
+                                       context="{'default_type':'delivery'}"
+                                       options="{&quot;always_reload&quot;: True}"/>
+                            </group>
+                            <group>
+                                <field name="booking_date"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="duration"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_manage" model="ir.actions.act_window">
+            <field name="name">Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">manage.booking</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="1">Empty</p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

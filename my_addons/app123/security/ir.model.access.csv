@@ -1,0 +1,12 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_manage_booking,access_manage_booking,model_manage_booking,base.group_user,1,1,1,1
+access_manage_type,access_manage_type,model_manage_type,base.group_user,1,1,1,1
+access_manage_service,access_manage_service,model_manage_service,base.group_user,1,1,1,1
+access_service_tree,access_service_tree,model_service_tree,base.group_user,1,1,1,1
+access_manage_catering,access_manage_catering,model_manage_catering,base.group_user,1,1,1,1
+access_catering_page,access_catering_page,model_catering_page,base.group_user,1,1,1,1
+access_manage_menu,access_manage_menu,model_manage_menu,base.group_user,1,1,1,1
+
+
+
+

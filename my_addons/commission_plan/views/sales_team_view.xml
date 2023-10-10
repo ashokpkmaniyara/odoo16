@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--view for commission plan field in sales team-->
+    <record id="sales_team_commission_plan_view" model="ir.ui.view">
+        <field name="name">sales.team.view</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']"
+                   position="after">
+
+                <field name="commission_plan_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

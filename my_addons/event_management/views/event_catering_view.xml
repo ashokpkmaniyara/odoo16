@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!--tree event_catering view-->
+    <record id="event_catering_tree_view" model="ir.ui.view">
+        <field name="name">event.catering.tree</field>
+        <field name="model">event.catering</field>
+        <field name="arch" type="xml">
+            <tree string="event_catering">
+                <field name="name"/>
+                <field name="catering_date"/>
+                <field name="catering_start_date"/>
+                <field name="catering_end_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--form event_catering view-->
+
+    <record id="event_catering_form_view" model="ir.ui.view">
+        <field name="name">event.catering.form</field>
+        <field name="model">event.catering</field>
+        <field name="arch" type="xml">
+            <form string="event_catering">
+                <header>
+                    <button name="button_confirmed" id="button_confirmed" data-hotkey="v" string="Confirm"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                    <button name="button_delivered" id="button_delivered" data-hotkey="v" string="Deliver"
+                            class="btn-primary" type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': [('catering_state', 'in', ['draft','delivered','invoiced','expired'])]}"/>
+                    <field name="catering_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div>
+                        <field name="name" style="font-size:50px;color:black;"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="catering_event_id" options="{'no_create_edit':1,'no_create':1}"/>
+                            <field name="catering_date"/>
+                            <field name="catering_start_date"/>
+                            <field name="catering_end_date"/>
+                            <field name="catering_guests"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                        </group>
+                        <group>
+                            <field name="catering_welcome_drink"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_breakfast"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_lunch"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_dinner"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_snacks_and_drinks"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                            <field name="catering_beverages"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="welcome_drink_page" string="Welcome Drink"
+                              attrs="{'invisible':[('catering_welcome_drink', '=', False)]}">
+                            <field name="child_welcome_drink_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'welcome_drink')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+                                    <div style="margin-right:10px;">
+                                        Total:
+                                    </div>
+                                    <div>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="breakfast_page" string="Breakfast"
+                              attrs="{'invisible':[('catering_breakfast', '=', False)]}">
+                            <field name="child_breakfast_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'breakfast')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+
+                                    <div style="margin-right:10px;">Total:</div>
+
+                                    <div>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="lunch_page" string="Lunch" attrs="{'invisible':[('catering_lunch', '=', False)]}">
+                            <field name="child_lunch_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'lunch')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+
+                                    <div style="margin-right:10px;">Total:</div>
+
+                                    <div>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="dinner_page" string="Dinner"
+                              attrs="{'invisible':[('catering_dinner', '=', False)]}">
+                            <field name="child_dinner_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'dinner')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+
+                                    <div style="margin-right:10px;">Total:</div>
+
+                                    <div>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="snacks_and_drinks_page" string="Snacks and Drinks"
+                              attrs="{'invisible':[('catering_snacks_and_drinks', '=', False)]}">
+                            <field name="child_snacks_and_drinks_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'snacks_and_drinks')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+
+                                    <div style="margin-right:10px;">Total:</div>
+
+                                    <div>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="beverages_page" string="Beverages"
+                              attrs="{'invisible':[('catering_beverages', '=', False)]}">
+                            <field name="child_beverages_ids"
+                                   attrs="{'readonly': [('catering_state', 'in', ['confirmed','delivered','invoiced','expired'])]}">
+                                <tree editable="bottom">
+                                    <field name="event_catering_page_item_id"
+                                           domain="[('catering_type_category', '=', 'beverages')]"/>
+                                    <field name="event_catering_page_description"/>
+                                    <field name="event_catering_page_quantity" style="width:15px;"/>
+                                    <field name="event_catering_page_uom_id"/>
+                                    <field name="event_catering_page_unit_price_id"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="event_catering_page_subtotal" sum="Total" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+
+                                    <div style="margin-right:10px;">Total:</div>
+
+                                    <div>
+                                        <field name="catering_grand_total" nolabel="1" colspan="2" readonly="1"
+                                               widget="monetary"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <!--action for event catering-->
+
+    <record id="action_event_catering" model="ir.actions.act_window">
+        <field name="name">Event Catering</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">event.catering</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Empty, no data here</p>
+        </field>
+    </record>
+
+
+    <!--form view for event catering pages-->
+
+    <record id="event_catering_pages_form_view" model="ir.ui.view">
+        <field name="name">event.catering.pages.form</field>
+        <field name="model">event.catering.pages</field>
+        <field name="arch" type="xml">
+            <form string="event_catering_pages">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="parent_welcome_drink_id"/>
+                            <field name="parent_breakfast_id"/>
+                            <field name="parent_lunch_id"/>
+                            <field name="parent_dinner_id"/>
+                            <field name="parent_snacks_and_drinks_id"/>
+                            <field name="parent_beverages_id"/>
+                            <field name="event_catering_page_item_id"/>
+                        </group>
+                        <group>
+                            <field name="event_catering_page_description"/>
+                            <field name="event_catering_page_quantity"/>
+                            <field name="event_catering_page_uom_id"/>
+                            <field name="event_catering_page_unit_price_id"/>
+                            <field name="event_catering_page_subtotal"/>
+                            <field name="parent_id" invisible="1"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+        <record id="event_catering" model="event.services">
+            <field name="name">Catering</field>
+            <field name="responsible_person_id" ref="base.user_demo"/>
+        </record>
+        <record id="event_decorations" model="event.services">
+            <field name="name">Decorations</field>
+            <field name="responsible_person_id" ref="base.user_demo"/>
+        </record>
+        <record id="event_escort" model="event.services">
+            <field name="name">Escort</field>
+            <field name="responsible_person_id" ref="base.user_demo"/>
+        </record>
+    </data>
+</odoo>

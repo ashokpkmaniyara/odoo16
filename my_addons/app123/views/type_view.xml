@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<odoo>
+
+    <record id="type_tree_view" model="ir.ui.view">
+        <field name="name">manage.type.tree</field>
+        <field name="model">manage.type</field>
+        <field name="arch" type="xml">
+            <tree string="type_tree">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="type_form_view" model="ir.ui.view">
+        <field name="name">manage.type.form</field>
+        <field name="model">manage.type</field>
+        <field name="arch" type="xml">
+            <form string="type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <div>
+                            <field style="width:100px" name="image" widget="image" class="oe_avatar"
+                                   options="{&quot;preview_image&quot;: &quot;avatar_128&quot;}"/>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_type" model="ir.actions.act_window">
+        <field name="name">Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">manage.type</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="1">Empty</p>
+        </field>
+    </record>
+
+
+</odoo>

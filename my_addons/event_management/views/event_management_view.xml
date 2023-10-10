@@ -1,0 +1,19 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<odoo>-->
+<!--    <record id="event_management_tree_view" model="ir.ui.view">-->
+<!--        <field name="name">event.management.tree</field>-->
+<!--        <field name="model">event.booking</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="event_booking">-->
+<!--                <field name="name"/>-->
+<!--                <field name="event_type"/>-->
+<!--                <field name="partner_id"/>-->
+<!--                <field name="booking_date"/>-->
+<!--                <field name="event_start_date"/>-->
+<!--                <field name="event_end_date"/>-->
+<!--                <field name="time_duration"/>-->
+
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--</odoo>-->

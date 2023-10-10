@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo noupdate="0">
+    <data>
+        <record id="juice" model="event.catering.type">
+            <field name="catering_type_name">Juice</field>
+            <field name="catering_type_category">welcome_drink</field>
+            <field name="catering_type_unit_price">5</field>
+        </record>
+        <record id="chappathi" model="event.catering.type">
+            <field name="catering_type_name">Chappathi</field>
+            <field name="catering_type_category">breakfast</field>
+            <field name="catering_type_unit_price">20</field>
+        </record>
+        <record id="rice" model="event.catering.type">
+            <field name="catering_type_name">Rice</field>
+            <field name="catering_type_category">lunch</field>
+            <field name="catering_type_unit_price">50</field>
+        </record>
+        <record id="noodles" model="event.catering.type">
+            <field name="catering_type_name">Noodles</field>
+            <field name="catering_type_category">dinner</field>
+            <field name="catering_type_unit_price">50</field>
+        </record>
+        <record id="biscuit" model="event.catering.type">
+            <field name="catering_type_name">Biscuit</field>
+            <field name="catering_type_category">snacks_and_drinks</field>
+            <field name="catering_type_unit_price">10</field>
+        </record>
+        <record id="cola" model="event.catering.type">
+            <field name="catering_type_name">cola</field>
+            <field name="catering_type_category">beverages</field>
+            <field name="catering_type_unit_price">10</field>
+        </record>
+    </data>
+</odoo>

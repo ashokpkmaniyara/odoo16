@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo noupdate="0">
+
+    <!--sequence event_catering view-->
+
+    <record id="sequence_event_catering" model="ir.sequence">
+        <field name="name">sequence.event.catering</field>
+        <field name="code">sequence_catering</field>
+        <field name="prefix">EC00</field>
+        <field name="padding">001</field>
+    </record>
+
+    <!--sequence event_booking view-->
+
+    <record id="sequence_event_booking" model="ir.sequence">
+        <field name="name">sequence.event.booking</field>
+        <field name="code">sequence_booking</field>
+        <field name="prefix">EB00</field>
+        <field name="padding">001</field>
+    </record>
+
+</odoo>

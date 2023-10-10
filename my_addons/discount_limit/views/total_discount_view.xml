@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <!--view to show the warning message in quotation form-->
+
+    <record id="sale_order_view" model="ir.ui.view">
+        <field name="name">sale.order.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@role='alert']" position="after">
+                <div class="alert alertalert-warning mb-0" role="alert"
+                     attrs="{'invisible': [('warning', '=', False)]}">
+                    <field name="warning" invisible="1"/>
+                    <span>Discount limit exceeds</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

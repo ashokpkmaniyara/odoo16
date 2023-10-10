@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<odoo>
+
+    <record id="catering_tree_view" model="ir.ui.view">
+        <field name="name">Catering</field>
+        <field name="model">manage.catering</field>
+        <field name="arch" type="xml">
+            <tree string="catering_tree">
+                <field name="event_id"/>
+                <field name="date"/>
+                <field name="guests"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="catering_form_view" model="ir.ui.view">
+        <field name="name">Catering</field>
+        <field name="model">manage.catering</field>
+        <field name="arch" type="xml">
+            <form string="catering_form">
+                <header>
+                    <button name="button_confirm" id="button_confirm" data-hotkey="v" string="Confirm"
+                                class="btn-primary" type="object" context="{'validate_analytic': True}"
+                                states="draft"/>
+                    <button name="button_delivered" id="button_delivered" data-hotkey="v" string="Deliver"
+                                class="btn-primary" type="object" context="{'validate_analytic': True}"
+                                states="confirmed"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div>
+                        <field name="name" style="font-size:50px;color:black;"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="event_id"/>
+                            <field name="date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="guests"/>
+                        </group>
+                        <group>
+                            <field name="welcome_drink"/>
+                            <field name="breakfast"/>
+                            <field name="lunch"/>
+                            <field name="dinner"/>
+                            <field name="snacks_and_drinks"/>
+                            <field name="beverages"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="welcome_drink_page" string="Welcome Drink"
+                              attrs="{'invisible': [('welcome_drink','=',False)]}">
+                            <field name="welcome_drink_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="breakfast_page" string="Breakfast" attrs="{'invisible': [('breakfast','=',False)]}">
+                            <field name="breakfast_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="lunch_page" string="Lunch" attrs="{'invisible': [('lunch','=',False)]}">
+                            <field name="lunch_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="dinner_page" string="Dinner" attrs="{'invisible': [('dinner','=',False)]}">
+                            <field name="dinner_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="snacks_and_drinks_page" string="Snacks and Drinks"
+                              attrs="{'invisible': [('snacks_and_drinks','=',False)]}">
+                            <field name="snacks_and_drinks_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="beverages_page" string="Beverages" attrs="{'invisible': [('beverages','=',False)]}">
+                            <field name="beverages_ids">
+                                <tree editable="bottom">
+                                    <field name="item_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price_id"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group attrs="{'invisible': ['|',('beverages','=',False),('snacks_and_drinks','=',False),('dinner','=',False),('lunch','=',False),('breakfast','=',False),('welcome_drink','=',False)]}">
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="grand_total">
+                            <div style="margin-right:10px;">Total:</div>
+                            <div>
+                                <field name="grand_total" nolabel="1" colspan="2" readonly="1"
+                                       widget="monetary"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_Catering" model="ir.actions.act_window">
+        <field name="name">Catering</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">manage.catering</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="1">Empty</p>
+        </field>
+    </record>
+</odoo>
