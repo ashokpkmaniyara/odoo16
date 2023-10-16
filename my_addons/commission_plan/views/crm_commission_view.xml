@@ -63,26 +63,7 @@
                             </tree>
                         </field>
 
-<!--                        <field name="graduated_ids"-->
-<!--                               attrs="{'invisible': ['|',('type','=','product_wise'),('revenue_wise','=','straight')]}">-->
-<!--                            <tree editable="bottom" string="revenue_wise">-->
-<!--                                <control>-->
-<!--                                    <create name="add_a_line"-->
-<!--                                            string="Add a line"/>-->
-<!--                                </control>-->
-<!--                                <field name="sequence"/>-->
-<!--                                <field name="from_amount"/>-->
-<!--                                <field name="to_amount"/>-->
-<!--                                <field name="rate"/>-->
-<!--                            </tree>-->
-<!--                        </field>-->
-                    </sheet>
-                </form>
-            </field>
-        </record>
 
-
-        <!-- action for commission plan-->
 
         <record id="action_commission_plan" model="ir.actions.act_window">
             <field name="name">Commission Plan</field>

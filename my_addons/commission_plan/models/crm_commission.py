@@ -27,12 +27,10 @@ class CommissionPlan(models.Model):
     revenue_wise = fields.Selection(
         [('straight', 'Straight'), ('graduated', 'Graduated')],
         help='select the revenue type', required=1, default='straight')
-    # graduated_ids = fields.One2many('revenue.wise',
-    #                                    inverse_name='graduated_commission_id')
 
     @api.onchange('type')
     def _onchange_type(self):
-        """for changing the selection the data also delete for the previous selection"""
+        """for changing the selection the data also delete for the previous selection for field type"""
         if self.type != 'revenue_wise':
             self.revenue_wise_ids.unlink()
             self.type = 'product_wise'
@@ -42,9 +40,9 @@ class CommissionPlan(models.Model):
 
     @api.onchange('revenue_wise')
     def _onchange_revenue_wise(self):
+        """for changing the selection the data also delete for the previous selection for field revenue wise"""
         self.revenue_wise_ids.unlink()
         self.type = 'revenue_wise'
-
 
     @api.constrains('start_date', 'end_date')
     def _check_duration(self):

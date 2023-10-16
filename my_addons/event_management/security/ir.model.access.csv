@@ -6,4 +6,5 @@ access_event_services,access_event_services,model_event_services,base.group_user
 access_event_services_tree,access_event_services_tree,model_event_services_tree,base.group_user,1,1,1,1
 access_event_catering_type,access_event_catering_type,model_event_catering_type,base.group_user,1,1,1,1
 access_event_catering_pages,access_event_catering_pages,model_event_catering_pages,base.group_user,1,1,1,1
+access_event_wizard,access_event_wizard,model_event_wizard,base.group_user,1,1,1,1
 

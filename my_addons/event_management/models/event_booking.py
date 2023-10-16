@@ -13,7 +13,7 @@ class EventBooking(models.Model):
     _rec_name = "sequence_name"
 
     sequence_name = fields.Char(readonly=1)
-    name = fields.Char(string="Name", compute="_compute_name")
+    name = fields.Char(string="Name", compute="_compute_name",store=1)
     event_type_id = fields.Many2one("event.type", string="Event Type", required=1)
 
     booking_date = fields.Date(default=fields.Datetime.now(), required=1)
@@ -46,7 +46,6 @@ class EventBooking(models.Model):
     @api.model
     def create(self, vals):
         """to generate sequence name"""
-        print(vals)
         vals['sequence_name'] = self.env['ir.sequence'].next_by_code('sequence_booking')
         return super(EventBooking, self).create(vals)
 

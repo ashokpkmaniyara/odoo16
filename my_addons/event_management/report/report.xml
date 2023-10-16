@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--Action for the pdf report in wizard-->
+
+    <record id="report_event_management" model="ir.actions.report">
+        <field name="name">Event Management</field>
+        <field name="model">event.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">event_management.event_pdf_report</field>
+        <field name="report_file">event_management.event_pdf_report</field>
+        <field name="binding_model_id" ref="model_event_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

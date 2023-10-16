@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--view for wizard when clicking automate button-->
+
+    <record id="report_wizard_view_form" model="ir.ui.view">
+        <field name="name">report.wizard.form</field>
+        <field name="model">event.wizard</field>
+        <field name="arch" type="xml">
+            <form string="report-Wizard">
+                <sheet>
+                    <group class="oe_title">
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        <group>
+                            <field name="type"/>
+                            <field name="include_catering"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Cancel" class="btn-danger"
+                            special="cancel"/>
+                    <button name="action_done" string="PDF" type="object"
+                            class="btn-primary"/>
+                    <button name="action_xlsx" string="XLSX" type="object"
+                            class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--action for wizard view-->
+
+    <record id="event_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Report Wizard</field>
+        <field name="res_model">event.wizard</field>
+        <field name="view_id" ref="report_wizard_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="event_third_menu_root" name="Report"
+              parent="event_menu_root" action="event_report_wizard_action"/>
+
+
+</odoo>

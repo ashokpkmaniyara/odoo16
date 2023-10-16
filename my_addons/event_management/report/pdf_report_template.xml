@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--template for pdf report-->
+
+    <template id="event_pdf_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div style="text-align:center">
+                        <h2>Event Management</h2>
+                    </div>
+                    <div>
+                        <div t-if="type">
+                            <span>Type:
+                                <t t-esc="data.get('type')"/>
+                            </span>
+                        </div>
+                        <div>
+                            <span t-if="from_date">From date:
+                                <t t-esc="data.get('from_date')"/>
+                            </span>
+                            <span t-else="">From date:
+                                <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/>
+                            </span>
+                        </div>
+                        <div>
+                            <span t-if="to_date">To date:
+                                <t t-esc="data.get('to_date')"/>
+                            </span>
+                            <span t-else="">To date:
+                                <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/>
+                            </span>
+                        </div>
+                    </div>
+                    <table class="table table-bordered"
+                           style="background-color:rgba(196,196,236,1)">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span>sl.no</span>
+                                </th>
+                                <th>
+                                    <span>Name</span>
+                                </th>
+                                <th t-if="type==False">
+                                    <span>Type</span>
+                                </th>
+                                <th>
+                                    <span>Customer</span>
+                                </th>
+                                <th>
+                                    <span>Booking Date</span>
+                                </th>
+                                <th>
+                                    <span>Status</span>
+                                </th>
+                                <th>
+                                    <span>Amount</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="1"/>
+                            <t t-foreach="report" t-as="r">
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <t t-esc="counter"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <t t-esc="r.get('name')"/>
+                                        </span>
+                                    </td>
+                                    <td t-if="type==False">
+                                        <span>
+                                            <t t-esc="r.get('type')"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <t t-esc="r.get('customer')"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <t t-esc="r.get('booking_date')"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <t t-esc="r.get('booking_state')"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <t t-esc="r.get('catering_grand_total')"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <t t-set="value" t-value="r.get('items')"/>
+                                <t t-if="include_catering and value">
+                                    <tr>
+                                        <td colspan="7">
+                                            <table class="table table-bordered"
+                                                   style="background-color:rgba(229,229,240,1);">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Quantity</th>
+                                                        <th>Price</th>
+                                                        <th>Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="text-align:center">
+                                                    <t t-foreach="value"
+                                                       t-as="i">
+                                                        <tr>
+                                                            <td>
+                                                                <t t-esc="i.get('catering_type_name')"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i.get('event_catering_page_description')"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i.get('event_catering_page_quantity')"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i.get('catering_type_unit_price')"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="i.get('event_catering_page_subtotal')"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-set="counter" t-value="counter+1"/>
+
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="float:right; padding-right: 35px;">
+                    <span>
+                        <b>Total:</b>
+                        <t t-esc="sum([r.get('catering_grand_total') or 0.0 for r in report])"/>
+                    </span>
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>
