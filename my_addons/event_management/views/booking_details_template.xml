@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--template for the booked event form-->
+    <template id="event_booked_template" name="booked">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container" align="center">
+                    <h1 class="text-center mt-3">Event Details</h1>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="name">Name:</label>
+                            </div>
+                            <div class="col">
+                                <input id="name" type="text" name="name"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       t-att-value="booked_id.name"
+                                       style="margin-top: 10px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="customer_ids">Customer:
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input id="customer_ids"
+                                       name="customer"
+                                       t-att-value="booked_id.partner_id.name"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       style="margin-top: 10px;">
+                                </input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="type_ids">Event Type:
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input id="type_ids" name="type"
+                                       t-att-value="booked_id.event_type_id.name"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       style="margin-top: 10px;">
+                                </input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="start_date">Start Date:
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input id="start_date" type="date"
+                                       name="start_date"
+                                       t-att-value="booked_id.event_start_date"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       style="margin-top: 10px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="end_date">End Date:</label>
+                            </div>
+                            <div class="col">
+                                <input id="end_date" type="date"
+                                       name="end_date"
+                                       t-att-value="booked_id.event_end_date"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       style="margin-top: 10px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center"
+                                 style="padding-left: 10px;">
+                                <label for="time_duration">Duration:
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input id="time_duration" type="number"
+                                       name="time_duration"
+                                       t-att-value="booked_id.time_duration"
+                                       class="form-control text-center"
+                                       readonly="1"
+                                       style="margin-top: 10px;"/>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px;margin-bottom:10px;">
+                            <button class="btn btn-success"
+                                    onclick="history.back()">
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

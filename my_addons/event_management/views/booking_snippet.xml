@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="external_snippets" inherit_id="website.snippets" priority="8">
+        <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]"
+               position="after">
+            <t t-snippet="event_management.event_booking_snippet"/>
+        </xpath>
+    </template>
+
+
+    <template id="event_booking_snippet" name="Event Booking Snippet">
+        <section class="container dynamic_snippet_blog" id="dynamic_snippet_blog">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center py-5">
+                        <h1 class="h1">Event Booking</h1>
+                        <div class="h3" style="text-align:center">Latest
+                            Event Booking
+                        </div>
+                        <div id="courosel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--template for the booking form-->
+    <template id="event_booking_template" name="booking">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container" align="center">
+                    <h1 class="text-center mt-3">Event Booking</h1>
+                    <form class="mt-4" method="post"
+                          name="booking_form" id="booking_form"
+                          action="/create/event_booking">
+                        <input type="hidden" name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+                        <div class="col-md-5">
+                                <p id="error_message" style="color:red;"/>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="name">Name:</label>
+                                </div>
+                                <div class="col">
+                                    <input id="name" type="text" name="name"
+                                           class="form-control text-center"
+                                           readonly="1"
+                                           style="margin-top: 10px;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="customer_ids">Customer:
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <select id="customer_ids"
+                                            name="customer"
+                                            class="form-control text-center"
+                                            style="margin-top: 10px;">
+                                        <option value=""/>
+                                        <t t-foreach="customer_ids"
+                                           t-as="customer">
+                                            <option t-att-value="customer.id">
+                                                <t t-esc="customer.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="type_ids">Event Type:
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <select id="type_ids" name="type"
+                                            class="form-control text-center"
+                                            style="margin-top: 10px;">
+                                        <option value=""/>
+                                        <t t-foreach="type_ids" t-as="type">
+                                            <option t-att-value="type.id">
+                                                <t t-esc="type.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="start_date">Start Date:
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input id="start_date" type="date"
+                                           name="start_date"
+                                           class="form-control text-center"
+                                           style="margin-top: 10px;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="end_date">End Date:</label>
+                                </div>
+                                <div class="col">
+                                    <input id="end_date" type="date"
+                                           name="end_date"
+                                           class="form-control text-center"
+                                           style="margin-top: 10px;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-center"
+                                     style="padding-left: 10px;">
+                                    <label for="time_duration">Duration:
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input id="time_duration" type="number"
+                                           name="time_duration"
+                                           class="form-control text-center"
+                                           readonly="1"
+                                           style="margin-top: 10px;"/>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-block"
+                                 style="margin-top:15px;margin-bottom:10px;">
+                                <button type="submit"
+                                        class="btn btn-primary" id="submitButton" disabled="1">
+                                    Create
+                                </button>
+                                <a t-attf-href="/customer-form"
+                                   class="btn btn-primary">Create Customer
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--template for the booking is success-->
+
+    <template id="event_booking_success">
+        <t t-call="website.layout">
+            <div class="container p-5 mt-5">
+                <div class="alert alert-success">
+                    <B>Booking Successfully Created!</B>
+                </div>
+                <div>
+                    <a t-attf-href="/booking" class="btn btn-success">Back</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--template for the booking is failed-->
+
+    <template id="event_booking_failed">
+        <t t-call="website.layout">
+            <div class="container p-5 mt-5">
+                <div class="alert alert-warning">
+                    <B>Booking Failed!</B>
+                </div>
+                <div>
+                    <button class="btn btn-success" onclick="history.back()">
+                        Back
+                    </button>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

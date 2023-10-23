@@ -13,16 +13,20 @@ class EventBooking(models.Model):
     _rec_name = "sequence_name"
 
     sequence_name = fields.Char(readonly=1)
-    name = fields.Char(string="Name", compute="_compute_name",store=1)
-    event_type_id = fields.Many2one("event.type", string="Event Type", required=1)
+    name = fields.Char(string="Name", compute="_compute_name")
+    event_type_id = fields.Many2one("event.type", string="Event Type",
+                                    required=1)
 
     booking_date = fields.Date(default=fields.Datetime.now(), required=1)
-    event_start_date = fields.Date(default=fields.Datetime.now(), string="Start Date", required=1)
+    event_start_date = fields.Date(default=fields.Datetime.now(),
+                                   string="Start Date", required=1)
     event_end_date = fields.Date(string="End Date", required=1)
     time_duration = fields.Integer(compute="_compute_duration")
     partner_id = fields.Many2one("res.partner", "Partner", required=1)
-    partner_invoice_id = fields.Many2one("res.partner_invoice", "Partner Invoice")
-    partner_shipping_id = fields.Many2one("res.partner_09/20/2023shipping", "Partner Shipping")
+    partner_invoice_id = fields.Many2one("res.partner_invoice",
+                                         "Partner Invoice")
+    partner_shipping_id = fields.Many2one("res.partner_09/20/2023shipping",
+                                          "Partner Shipping")
     catering_ids = fields.One2many("event.catering", "catering_event_id")
     booking_state = fields.Selection([
         ('draft', 'Draft'),
@@ -46,7 +50,8 @@ class EventBooking(models.Model):
     @api.model
     def create(self, vals):
         """to generate sequence name"""
-        vals['sequence_name'] = self.env['ir.sequence'].next_by_code('sequence_booking')
+        vals['sequence_name'] = self.env['ir.sequence'].next_by_code(
+            'sequence_booking')
         return super(EventBooking, self).create(vals)
 
     def button_confirm(self):
@@ -71,25 +76,24 @@ class EventBooking(models.Model):
 
         for record in self:
             if record.event_start_date and record.event_end_date and record.event_start_date < record.event_end_date:
-                record.time_duration = (record.event_end_date - record.event_start_date).days
+                record.time_duration = (
+                            record.event_end_date - record.event_start_date).days
             elif record.event_start_date == record.event_end_date:
                 record.time_duration = 1
             else:
                 record.time_duration = 0
 
-    @api.depends('event_type_id', 'partner_id.name', 'event_start_date', 'event_end_date')
+    @api.depends('event_type_id', 'partner_id.name', 'event_start_date',
+                 'event_end_date')
     def _compute_name(self):
-        """sequence name from the input details"""
         for record in self:
-            event_type = record.event_type_id.name or ''
-            customer_name = record.partner_id.name.split(' ')[0] if record.partner_id else ''
-            start_date = record.event_start_date.strftime('%d-%m-%Y') if record.event_start_date else ''
-            end_date = record.event_end_date.strftime('%d-%m-%Y') if record.event_end_date else ''
-
-            if event_type and customer_name and start_date and end_date:
-                record.name = f"{event_type} : {customer_name} / {start_date}:{end_date}"
+            if record.event_type_id and record.partner_id and record.event_start_date and record.event_end_date:
+                record.name = (str(record.event_type_id.name) +
+                               ":" + str(record.partner_id.name) +
+                               "/" + str(record.event_start_date) + ":"
+                               + str(record.event_end_date))
             else:
-                record.name = f"{event_type} {customer_name} {start_date} {end_date}"
+                record.name = "New"
 
     def button_catering(self):
         """button to go to new page with pre-filled data"""
@@ -113,8 +117,10 @@ class EventBooking(models.Model):
 
         invoice_lines = []
 
-        for catering_type in ['welcome_drink', 'breakfast', 'lunch', 'dinner', 'snacks_and_drinks', 'beverages']:
-            for product in getattr(self.catering_ids, f'child_{catering_type}_ids'):
+        for catering_type in ['welcome_drink', 'breakfast', 'lunch', 'dinner',
+                              'snacks_and_drinks', 'beverages']:
+            for product in getattr(self.catering_ids,
+                                   f'child_{catering_type}_ids'):
                 invoice_line = fields.Command.create({
                     'product_id': '',
                     'name': product.event_catering_page_item_id.catering_type_name,
@@ -154,7 +160,8 @@ class EventBooking(models.Model):
             'name': 'Event',
             'view_mode': 'form',
             'res_model': 'event.catering',
-            'res_id': self.env['event.catering'].search([('catering_event_id', '=', self.id)]).id,
+            'res_id': self.env['event.catering'].search(
+                [('catering_event_id', '=', self.id)]).id,
             'context': {'create': False}
         }
 

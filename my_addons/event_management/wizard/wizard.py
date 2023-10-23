@@ -22,43 +22,14 @@ class ReportWizard(models.TransientModel):
     include_catering = fields.Boolean(string='Include Catering',
                                       help='enable field to add catering')
 
-    def action_done(self):
-        """function for the menu report. By clicking this menu the data will
-        pass into the wizard view fields"""
-        data = {
-            'from_date': self.from_date,
-            'to_date': self.to_date,
-            'type': self.type.name,
-            'include_catering': self.include_catering,
-        }
-        return self.env.ref(
-            'event_management.report_event_management').report_action(None,
-                                                                      data=data)
+    def query(self):
+        """function for executing the main query and to check there is any
+        records to print otherwise raise an exception"""
+        from_date = self.from_date
+        to_date = self.to_date
+        type = self.type.name
 
-    def action_xlsx(self):
-        data = {
-            'from_date': self.from_date,
-            'to_date': self.to_date,
-            'type': self.type.name,
-            'include_catering': self.include_catering,
-        }
-        return {
-            'type': 'ir.actions.report',
-            'data': {'model': 'event.wizard',
-                     'options': json.dumps(data,
-                                           default=date_utils.json_default),
-                     'output_format': 'xlsx',
-                     'report_name': 'Excel Report',
-                     },
-            'report_type': 'xlsx',
-        }
-
-    def get_xlsx_report(self, data, response):
-        from_date = data.get('from_date')
-        to_date = data.get('to_date')
-        type = data.get('type')
-
-        query = """select b.name as name,t.name as type,p.name as customer,
+        query = """select b.name as name,t.name as type,p.name as customer, 
         b.booking_date,b.booking_state, (select c.catering_grand_total from 
         event_catering as c where b.id = c.catering_event_id limit 1) as 
         catering_grand_total, (select c.id from event_catering as c where 
@@ -80,8 +51,52 @@ class ReportWizard(models.TransientModel):
 
         self.env.cr.execute(query, tuple(params))
         report = self.env.cr.dictfetchall()
-        print('aaaaa',report)
+        if not report:
+            raise models.ValidationError('There is no data to print')
+        return report
 
+    def action_done(self):
+        """function for pdf button inside the menu report. By clicking this
+        button the data will pass into the report"""
+        data = {
+            'from_date': self.from_date,
+            'to_date': self.to_date,
+            'type': self.type.name,
+            'include_catering': self.include_catering,
+        }
+        return self.env.ref(
+            'event_management.report_event_management').report_action(None,
+                                                                      data=data)
+
+    def action_xlsx(self):
+        """function for xlsx button inside the menu report. By clicking this
+        button the data will pass into the report"""
+        report = self.query()
+        data = {
+            'report': report,
+            'from_date': self.from_date,
+            'to_date': self.to_date,
+            'type': self.type.name,
+            'include_catering': self.include_catering,
+        }
+        return {
+            'type': 'ir.actions.report',
+            'data': {'model': 'event.wizard',
+                     'options': json.dumps(data,
+                                           default=date_utils.json_default),
+                     'output_format': 'xlsx',
+                     'report_name': 'Excel Report',
+                     },
+            'report_type': 'xlsx',
+        }
+
+    def get_xlsx_report(self, data, response):
+        """function to print xlsx report with different conditions"""
+        from_date = data.get('from_data')
+        to_date = data.get('to_date')
+        type = data.get('type')
+        report = data.get('report')
+        user_obj = self.env.user
         result = []
         if data.get('include_catering'):
             for event in report:
@@ -96,9 +111,9 @@ class ReportWizard(models.TransientModel):
                 parent_snacks_and_drinks_id=%s or parent_beverages_id=%s"""
 
                 self.env.cr.execute(query2, (
-                    event['id'], event['id'],
-                    event['id'], event['id'],
-                    event['id'], event['id']))
+                    event['catering_id'], event['catering_id'],
+                    event['catering_id'], event['catering_id'],
+                    event['catering_id'], event['catering_id']))
                 report2 = self.env.cr.dictfetchall()
                 event['items'] = report2
                 result.append(event)
@@ -113,20 +128,26 @@ class ReportWizard(models.TransientModel):
         txt = workbook.add_format({'font_size': '11px', 'align': 'center'})
         heading = workbook.add_format(
             {'font_size': '13px', 'align': 'center', 'bold': True})
+        sub_head = workbook.add_format(
+            {'font_size': '10px', 'align': 'center', 'bold': True})
         date_style = workbook.add_format(
             {'text_wrap': True, 'num_format': 'dd-mm-yyyy', 'align': 'center'})
         sheet.merge_range('A2:G3', 'Event Management', head)
+        sheet.write('B4', user_obj.company_id.name, txt)
+        sheet.write('B5', user_obj.company_id.street, txt)
+        sheet.write('B6', user_obj.company_id.city, txt)
+        sheet.write('B7', user_obj.company_id.zip, txt)
+        sheet.write('B8', user_obj.company_id.state_id.name, txt)
+        sheet.write('B9', user_obj.company_id.country_id.name, txt)
+        sheet.write('C5', 'From Date:', cell_format)
+        sheet.write('C6', 'To Date:', cell_format)
         if from_date:
-            sheet.write('C5', 'From Date:', cell_format)
             sheet.write('D5', from_date, date_style)
         else:
-            sheet.write('C5', 'From Date:', cell_format)
             sheet.write('D5', date.today(), date_style)
         if to_date:
-            sheet.write('C6', 'To Date:', cell_format)
             sheet.write('D6', to_date, date_style)
         else:
-            sheet.write('C6', 'To Date:', cell_format)
             sheet.write('D6', date.today(), date_style)
         if type:
             sheet.write('C7', 'Type:', cell_format)
@@ -140,45 +161,165 @@ class ReportWizard(models.TransientModel):
         sheet.set_column(5, 5, 20)
         sheet.set_column(6, 6, 20)
 
-        row = 10
+        row = 12
         col = 0
         slno = 1
-        if not type:
-            sheet.write('A9', 'SL.NO:', heading)
-            sheet.write('B9', 'NAME', heading)
-            sheet.write('C9', 'TYPE', heading)
-            sheet.write('D9', 'CUSTOMER', heading)
-            sheet.write('E9', 'BOOKING DATE', heading)
-            sheet.write('F9', 'STATUS', heading)
-            sheet.write('G9', 'AMOUNT', heading)
-            for rec in report:
-                print(rec)
-                sheet.write(row, col, slno, txt)
-                sheet.write(row, col + 1, rec.get('name'), txt)
-                sheet.write(row, col + 2, rec.get('type'), txt)
-                sheet.write(row, col + 3, rec.get('customer'), txt)
-                sheet.write(row, col + 4, rec.get('booking_date'), date_style)
-                sheet.write(row, col + 5, rec.get('booking_state'), txt)
-                sheet.write(row, col + 6, rec.get('catering_grand_total'), txt)
-                row += 1
-                slno += 1
+        if data.get('include_catering'):
+            if not type:
+                sheet.write('A11', 'SL.NO:', heading)
+                sheet.write('B11', 'NAME', heading)
+                sheet.write('C11', 'TYPE', heading)
+                sheet.write('D11', 'CUSTOMER', heading)
+                sheet.write('E11', 'BOOKING DATE', heading)
+                sheet.write('F11', 'STATUS', heading)
+                sheet.write('G11', 'AMOUNT', heading)
+                for rec in result:
+                    sheet.write(row, col, slno, txt)
+                    sheet.write(row, col + 1, rec.get('name'), txt)
+                    sheet.write(row, col + 2, rec.get('type'), txt)
+                    sheet.write(row, col + 3, rec.get('customer'), txt)
+                    sheet.write(row, col + 4, rec.get('booking_date'),
+                                date_style)
+                    sheet.write(row, col + 5, rec.get('booking_state'), txt)
+                    sheet.write(row, col + 6, rec.get('catering_grand_total'),
+                                txt)
+                    row += 1
+                    col = 0
+                    if rec.get('items'):
+                        sheet.write(row, col + 1, 'NAME', sub_head)
+                        sheet.write(row, col + 2, 'DESCRIPTION', sub_head)
+                        sheet.write(row, col + 3, 'QUANTITY', sub_head)
+                        sheet.write(row, col + 4, 'PRICE', sub_head)
+                        sheet.write(row, col + 5, 'TOTAL', sub_head)
+                        row += 1
+                        value = rec.get('items')
+                        for item in value:
+                            col = 0
+                            sheet.write(row, col + 1,
+                                        item.get('catering_type_name'), txt)
+                            sheet.write(row, col + 2,
+                                        item.get(
+                                            'event_catering_page_description'),
+                                        txt)
+                            sheet.write(row, col + 3,
+                                        item.get(
+                                            'event_catering_page_quantity'),
+                                        txt)
+                            sheet.write(row, col + 4,
+                                        item.get('catering_type_unit_price'),
+                                        txt)
+                            sheet.write(row, col + 5,
+                                        item.get(
+                                            'event_catering_page_subtotal'),
+                                        txt)
+                            row += 1
+                        row += 1
+                        slno += 1
+                sheet.write(row + 2, 5, 'Total:', heading)
+                sheet.write(row + 2, 6,
+                            sum([r.get('catering_grand_total') or 0.0 for r in
+                                 report]), txt)
+
+            else:
+                sheet.write('A11', 'SL.NO:', heading)
+                sheet.write('B11', 'NAME', heading)
+                sheet.write('C11', 'CUSTOMER', heading)
+                sheet.write('D11', 'BOOKING DATE', heading)
+                sheet.write('E11', 'STATUS', heading)
+                sheet.write('F11', 'AMOUNT', heading)
+                for rec in report:
+                    sheet.write(row, col, slno, txt)
+                    sheet.write(row, col + 1, rec.get('name'), txt)
+                    sheet.write(row, col + 2, rec.get('customer'), txt)
+                    sheet.write(row, col + 3, rec.get('booking_date'),
+                                date_style)
+                    sheet.write(row, col + 4, rec.get('booking_state'), txt)
+                    sheet.write(row, col + 5, rec.get('catering_grand_total'),
+                                txt)
+                    row += 1
+                    col = 0
+                    if rec.get('items'):
+                        sheet.write(row, col + 1, 'NAME', sub_head)
+                        sheet.write(row, col + 2, 'DESCRIPTION', sub_head)
+                        sheet.write(row, col + 3, 'QUANTITY', sub_head)
+                        sheet.write(row, col + 4, 'PRICE', sub_head)
+                        sheet.write(row, col + 5, 'TOTAL', sub_head)
+                        row += 1
+                        value = rec.get('items')
+                        for item in value:
+                            col = 0
+                            sheet.write(row, col + 1,
+                                        item.get('catering_type_name'), txt)
+                            sheet.write(row, col + 2,
+                                        item.get(
+                                            'event_catering_page_description'),
+                                        txt)
+                            sheet.write(row, col + 3,
+                                        item.get(
+                                            'event_catering_page_quantity'),
+                                        txt)
+                            sheet.write(row, col + 4,
+                                        item.get('catering_type_unit_price'),
+                                        txt)
+                            sheet.write(row, col + 5,
+                                        item.get(
+                                            'event_catering_page_subtotal'),
+                                        txt)
+                            row += 1
+                        row += 1
+                        slno += 1
+                sheet.write(row + 2, 4, 'Total:', heading)
+                sheet.write(row + 2, 5,
+                            sum([r.get('catering_grand_total') or 0.0 for r in
+                                 report]), txt)
+
         else:
-            sheet.write('A9', 'SL.NO:', heading)
-            sheet.write('B9', 'NAME', heading)
-            sheet.write('C9', 'CUSTOMER', heading)
-            sheet.write('D9', 'BOOKING DATE', heading)
-            sheet.write('E9', 'STATUS', heading)
-            sheet.write('F9', 'AMOUNT', heading)
-            for rec in report:
-                print(rec)
-                sheet.write(row, col, slno, txt)
-                sheet.write(row, col + 1, rec.get('name'), txt)
-                sheet.write(row, col + 2, rec.get('customer'), txt)
-                sheet.write(row, col + 3, rec.get('booking_date'), date_style)
-                sheet.write(row, col + 4, rec.get('booking_state'), txt)
-                sheet.write(row, col + 5, rec.get('catering_grand_total'), txt)
-                row += 1
-                slno += 1
+            if not type:
+                sheet.write('A11', 'SL.NO:', heading)
+                sheet.write('B11', 'NAME', heading)
+                sheet.write('C11', 'TYPE', heading)
+                sheet.write('D11', 'CUSTOMER', heading)
+                sheet.write('E11', 'BOOKING DATE', heading)
+                sheet.write('F11', 'STATUS', heading)
+                sheet.write('G11', 'AMOUNT', heading)
+                for rec in report:
+                    sheet.write(row, col, slno, txt)
+                    sheet.write(row, col + 1, rec.get('name'), txt)
+                    sheet.write(row, col + 2, rec.get('type'), txt)
+                    sheet.write(row, col + 3, rec.get('customer'), txt)
+                    sheet.write(row, col + 4, rec.get('booking_date'),
+                                date_style)
+                    sheet.write(row, col + 5, rec.get('booking_state'), txt)
+                    sheet.write(row, col + 6, rec.get('catering_grand_total'),
+                                txt)
+                    row += 1
+                    slno += 1
+                sheet.write(row + 2, 5, 'Total:', heading)
+                sheet.write(row + 2, 6,
+                            sum([r.get('catering_grand_total') or 0.0 for r in
+                                 report]), txt)
+            else:
+                sheet.write('A11', 'SL.NO:', heading)
+                sheet.write('B11', 'NAME', heading)
+                sheet.write('C11', 'CUSTOMER', heading)
+                sheet.write('D11', 'BOOKING DATE', heading)
+                sheet.write('E11', 'STATUS', heading)
+                sheet.write('F11', 'AMOUNT', heading)
+                for rec in report:
+                    sheet.write(row, col, slno, txt)
+                    sheet.write(row, col + 1, rec.get('name'), txt)
+                    sheet.write(row, col + 2, rec.get('customer'), txt)
+                    sheet.write(row, col + 3, rec.get('booking_date'),
+                                date_style)
+                    sheet.write(row, col + 4, rec.get('booking_state'), txt)
+                    sheet.write(row, col + 5, rec.get('catering_grand_total'),
+                                txt)
+                    row += 1
+                    slno += 1
+                sheet.write(row + 2, 4, 'Total:', heading)
+                sheet.write(row + 2, 5,
+                            sum([r.get('catering_grand_total') or 0.0 for r in
+                                 report]), txt)
 
         workbook.close()
         output.seek(0)

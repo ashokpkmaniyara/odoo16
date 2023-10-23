@@ -36,6 +36,10 @@ class PDFReport(models.AbstractModel):
 
         self.env.cr.execute(query, tuple(params))
         report = self.env.cr.dictfetchall()
+        print(report)
+
+        if not report:
+            raise models.ValidationError('There is nothing to print')
 
         result = []
         if data.get('include_catering'):

@@ -1,0 +1,54 @@
+<templates id="template" xml:space="preserve">
+        <t t-name="event_management.event_booking_snippet_carousel">
+        <div id="booking_carousel" class="container carousel slide"
+             data-bs-ride="carousel" t-att-data-bs-interval="interval">
+            <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                <t t-foreach="chunks" t-as="chunk">
+                    <div t-att-class="chunk.is_active ? 'carousel-item active' : 'carousel-item'">
+                        <div class="row">
+                            <t t-foreach="chunk" t-as="item">
+                                <div class="block span3 col-3">
+                                    <div class="card-group">
+                                        <div class="card">
+                                            <a t-attf-href="/slides/{{item.id}}">
+                                            <img class="card-img-top"
+                                                 t-attf-src="data:img/png;base64,{{item.event_type_image}}"
+                                                 style="padding: 0px; margin: 0px; height: 160px; width:305px;"/>
+                                            </a>
+                                            <h5 class="card-text">
+                                                <span>
+                                                    <t t-esc="item.partner_id[1]"/>
+                                                </span>
+                                            </h5>
+                                            <h5 class="card-text">
+                                                <span>
+                                                    <t t-esc="item.event_type_id[1]"/>
+                                                </span>
+                                            </h5>
+                                            <a t-attf-href="/slides/{{item.id}}"
+                                               class="btn btn-primary">
+                                            View Booking
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+            <a t-attf-href="#booking_carousel" class="carousel-control-prev"
+               data-bs-slide="prev" role="button" aria-label="Previous"
+               title="Previous" style="height: 30px;margin-top:200px;">
+                <span class="fa fa-chevron-circle-left fa-2x"/>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a t-attf-href="#booking_carousel" class="carousel-control-next"
+               data-bs-slide="next" role="button" aria-label="Next"
+               title="Next" style="height: 30px;margin-top:200px;">
+            <span class="fa fa-chevron-circle-right fa-2x"/>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </t>
+    </templates>
