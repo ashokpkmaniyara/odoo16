@@ -2,7 +2,7 @@
 {
     'name': "Event Management",
     'version': '16.0.1.0.0',
-    'depends': ['base', 'mail','sale','website', 'contacts'],
+    'depends': ['base', 'mail','sale','website'],
     'author': "Ashok P K",
     'category': 'Category',
     'description': """

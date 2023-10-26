@@ -1,6 +1,6 @@
-<templates id="template" xml:space="preserve">
+<templates>
         <t t-name="event_management.event_booking_snippet_carousel">
-        <div id="booking_carousel" class="container carousel slide"
+        <div t-attf-id="book-{{new_id}}" class="container carousel slide"
              data-bs-ride="carousel" t-att-data-bs-interval="interval">
             <div class="carousel-inner row w-100 mx-auto" role="listbox">
                 <t t-foreach="chunks" t-as="chunk">
@@ -38,13 +38,13 @@
                 </t>
             </div>
         </div>
-            <a t-attf-href="#booking_carousel" class="carousel-control-prev"
+            <a t-attf-href="#book-{{new_id}}" class="carousel-control-prev"
                data-bs-slide="prev" role="button" aria-label="Previous"
                title="Previous" style="height: 30px;margin-top:200px;">
                 <span class="fa fa-chevron-circle-left fa-2x"/>
                 <span class="visually-hidden">Previous</span>
             </a>
-            <a t-attf-href="#booking_carousel" class="carousel-control-next"
+            <a t-attf-href="#book-{{new_id}}" class="carousel-control-next"
                data-bs-slide="next" role="button" aria-label="Next"
                title="Next" style="height: 30px;margin-top:200px;">
             <span class="fa fa-chevron-circle-right fa-2x"/>

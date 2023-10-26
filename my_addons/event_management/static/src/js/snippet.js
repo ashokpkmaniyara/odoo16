@@ -1,4 +1,4 @@
-odoo.define('elearning_course_snippet.snippet', function(require) {
+odoo.define('event_booking_snippet.snippet', function(require) {
 'use strict';
 var PublicWidget = require('web.public.widget');
 var rpc = require('web.rpc');
@@ -14,7 +14,7 @@ var Dynamic = PublicWidget.Widget.extend({
         var chunks = _.chunk(data, 4)
         chunks[0].is_active = true
         console.log('aa',chunks)
-            var snippet = qweb.render('event_management.event_booking_snippet_carousel', {'chunks':chunks})
+            var snippet = qweb.render('event_management.event_booking_snippet_carousel', {'chunks':chunks, 'new_id': Date.now()})
             self.$('#courosel').html(snippet)
         })
     },

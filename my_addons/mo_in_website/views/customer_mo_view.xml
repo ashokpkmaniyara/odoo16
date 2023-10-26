@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="customer_in_mo" model="ir.ui.view">
+        <field name="name">customer.in.mo.view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']"
+                   position="after">
+                <field name="customer_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <template id="portal_website_mo" inherit_id="portal.portal_layout"
+              priority="8">
+        <xpath expr="//div[@t-attf-class='col-12 col-md col-lg-6']" position="inside">
+            <a class="list-group-item list-group-item-action d-flex align-items-center justify-content-between" href="/my/mo" title="Manufacturing &amp; Orders">
+            Manufacturing &amp; Orders
+                <span class="badge text-bg-secondary rounded-pill" data-oe-model="ir.ui.view" data-oe-id="497" data-oe-field="arch" data-oe-xpath="/t[1]/a[1]/t[3]/span[1]" data-placeholder_count="mo_count">0</span>
+        </a>
+        </xpath>
+    </template>
+
+</odoo>

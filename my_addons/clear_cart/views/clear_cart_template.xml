@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="clear_cart_button" inherit_id="website_sale.cart"
+              priority="8">
+        <xpath expr="//a[@class='btn btn-secondary mb32']" position="after">
+            <a t-if="website_sale_order and website_sale_order.website_order_line"
+               role="button" href="/clear/cart"
+               class="btn btn-secondary mb32" id="btn_clear_cart">
+                <span>Clear Cart</span>
+            </a>
+        </xpath>
+    </template>
+</odoo>

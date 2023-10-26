@@ -4,7 +4,8 @@
     <template id="external_snippets" inherit_id="website.snippets" priority="8">
         <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]"
                position="after">
-            <t t-snippet="event_management.event_booking_snippet"/>
+            <t t-snippet="event_management.event_booking_snippet"
+                t-thumbnail="event_management/static/img/Birthday.jpg"/>
         </xpath>
     </template>
 
