@@ -2,7 +2,7 @@
 {
     'name': "MO in Website",
     'version': '16.0.1.0.0',
-    'depends': ['base','sale','website'],
+    'depends': ['base','sale','website','mrp'],
     'author': "Ashokpk",
     'category': 'Category',
     'description': """

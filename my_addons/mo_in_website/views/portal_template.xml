@@ -1,4 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <template id="portal_my_manufacturing_orders" name="Manufacturing Orders"
+              customize_show="True" inherit_id="portal.portal_my_home"
+              priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Manufacturing Orders</t>
+                <t t-set="url" t-value="'/my/mo'"/>
+                <t t-set="placeholder_count" t-value="'mo_count'"/>
+            </t>
+        </xpath>
+    </template>
 
+
+    <template id="my_manufacturing_order_portal" name="My Manufacturing Order">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Manufacturing orders</t>
+            </t>
+            <t t-if="not orders">
+                <p>There are currently no manufacturing orders in your
+                    account.
+                </p>
+            </t>
+            <t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class='text-center'>Orders</th>
+                        <th class='text-center'>Scheduled Date</th>
+                        <th class='text-center'>Product</th>
+                        <th class="text-center">Quantity</th>
+                    </tr>
+                </thead>
+                <t t-foreach="orders" t-as="order">
+                    <tr>
+                        <td class='text-center'>
+                            <t t-out="order.name"/>
+                        </td>
+
+                        <td class="text-center">
+                            <span t-field="order.date_planned_start"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="order.product_id"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="order.product_qty"/>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
 </odoo>
