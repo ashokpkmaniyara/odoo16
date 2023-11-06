@@ -1,0 +1,15 @@
+<odoo>
+    <template id="redirect_form">
+        <form t-att-action="url" method="get">
+            <t t-foreach="url_params" t-as="param">
+                <input type="hidden" t-att-name="param"
+                       t-att-value="url_params[param]"/>
+            </t>
+        </form>
+    </template>
+    <record id="payment_method_msp" model="account.payment.method">
+        <field name="name">Multisafepay</field>
+        <field name="code">msp</field>
+        <field name="payment_type">inbound</field>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+<odoo>
+    <record id="payment_provider_msp" model="payment.provider">
+        <field name="code">msp</field>
+        <field name="name">Multisafepay</field>
+        <field name="display_as">Multisafepay</field>
+        <field name="image_128"
+               type="base64"
+               file="payment_multisafepay/static/src/img/msp_img.png"/>
+        <field name="redirect_form_view_id" ref="redirect_form"/>
+    </record>
+</odoo>

@@ -12,8 +12,7 @@ var Dynamic = PublicWidget.Widget.extend({
             route: '/latest_booking'
         }).then(function(data) {
         var chunks = _.chunk(data, 4)
-        chunks[0].is_active = true
-        console.log('aa',chunks)
+//        chunks[0].is_active = true
             var snippet = qweb.render('event_management.event_booking_snippet_carousel', {'chunks':chunks, 'new_id': Date.now()})
             self.$('#courosel').html(snippet)
         })

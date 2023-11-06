@@ -34,7 +34,7 @@ class EventBooking(models.Model):
         ('delivered', 'Delivered'),
         ('invoiced', 'Invoiced'),
         ('expired', 'Expired')
-    ], string="State", default="draft", track_visibility="onchange")
+    ], string="State", default="draft",tracking=1)
     record_count = fields.Integer(compute="_compute_record_count")
     cat_id = fields.Many2one("event.catering.pages", invisible="1")
     catering_creation = fields.Boolean()

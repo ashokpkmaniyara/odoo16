@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+   <t t-name="CustomerTable" t-inherit="point_of_sale.PartnerListScreen" t-inherit-mode="extension" owl="1">
+     <xpath expr="//th[hasclass('partner-line-email')]" position="after">
+         <thead>
+             <th>Purchase Limit</th>
+         </thead>
+      </xpath>
+   </t>
+    <t t-name="CustomerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension" owl="1">
+     <xpath expr="//td[hasclass('partner-line-email')]" position="after">
+             <td><t t-esc="props.partner.limit"/></td>
+      </xpath>
+   </t>
+</templates>

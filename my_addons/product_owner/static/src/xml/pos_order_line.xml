@@ -1,7 +1,7 @@
 <templates id="template_orderline" xml:space="preserve">
-        <t t-name="orderline" t-inherit="point_of_sale.Orderline"
+        <t t-name="partner-list" t-inherit="point_of_sale.partner-list"
            t-inherit-mode="extension" owl="1">
-            <xpath expr="//span[hasclass('product-name')]"
+            <xpath expr="//th[hasclass('partner-line-email')]"
                    position="after">
                 <t t-if="props.line.product.owner_id">
                     <div>

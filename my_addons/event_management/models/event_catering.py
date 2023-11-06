@@ -44,7 +44,7 @@ class EventCatering(models.Model):
         ('delivered', 'Delivered'),
         ('invoiced', 'Invoiced'),
         ('expired', 'Expired')
-    ], string="State", default="draft", track_visibility="onchange")
+    ], string="State", default="draft", tracking=1)
 
     catering_grand_total = fields.Float("Grand Total",
                                         compute="_compute_grand_total",
@@ -88,7 +88,7 @@ class EventCatering(models.Model):
     def create(self, vals):
         """to generate sequence name"""
         vals['name'] = self.env['ir.sequence'].next_by_code('sequence_catering')
-        catering = super(EventCatering, self).create(vals)
+        catering = super().create(vals)
         if 'catering_event_id' in vals:
             event = self.env['event.booking'].browse(vals['catering_event_id'])
             event.write({
