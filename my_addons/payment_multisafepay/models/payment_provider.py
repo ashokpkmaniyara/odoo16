@@ -18,10 +18,11 @@ class PaymentProvider(models.Model):
     msp_api_key_test = fields.Char(
         string="MSP merchant key",
         help="The code of the merchant account to use with this provider.",
-        required_if_provider='msp',
+        required_if_provider='msp'
     )
 
     def _msp_make_request(self, endpoint, data=None, method='POST'):
+        """ Make a request at msp endpoint."""
         self.ensure_one()
         endpoint = f'/v1/{endpoint.strip("/")}'
         url = urls.url_join('https://testapi.multisafepay.com/', endpoint)
@@ -39,5 +40,4 @@ class PaymentProvider(models.Model):
             _logger.exception("unable to communicate with MSP: %s", url)
             raise ValidationError(
                 "C: " + "Could not establish the connection to the API.")
-
         return response.json()

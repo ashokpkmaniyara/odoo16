@@ -7,9 +7,4 @@
             </t>
         </form>
     </template>
-    <record id="payment_method_msp" model="account.payment.method">
-        <field name="name">Multisafepay</field>
-        <field name="code">msp</field>
-        <field name="payment_type">inbound</field>
-    </record>
 </odoo>
