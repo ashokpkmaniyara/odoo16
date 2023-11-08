@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!--view for o2m field in project form-->
+    <record id="o2m_field_view" model="ir.ui.view">
+        <field name="name">o2m.field.view</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='dates']"
+                   position="after">
+                    <field name="s_date_ids" readonly="1"/>
+
+            </xpath>
+            <xpath expr="//button[@name='%(project.project_share_wizard_action)d']"
+                   position="after">
+                    <button name="schedule_btn" type="object" class="oe_highlight" string="Schedule Date"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

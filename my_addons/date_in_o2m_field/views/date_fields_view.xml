@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--tree view for o2m field-->
+    <record id="o2m_field_tree_view" model="ir.ui.view">
+        <field name="name">o2m.field.tree</field>
+        <field name="model">date.fields</field>
+        <field name="arch" type="xml">
+            <tree string="o2m_field_tree">
+                <field name="month"/>
+                <field name="year"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
