@@ -15,11 +15,11 @@ class EstateProperty(models.Model):
     expected_price = fields.Float()
     selling_price = fields.Float(default=100, readonly=1, copy=False)
     bedrooms = fields.Integer(default=2)
-    living_area = fields.Integer()
+    living_area = fields.Float()
     facades = fields.Integer()
     garage = fields.Boolean()
     garden = fields.Boolean()
-    garden_area = fields.Integer()
+    garden_area = fields.Float()
     active = fields.Boolean(default=1)
     garden_orientation = fields.Selection(
         string='Type',

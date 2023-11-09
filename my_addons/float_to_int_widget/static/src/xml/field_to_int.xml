@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template">
+
+    <t t-name="float_to_int_widget.FloatToInt" owl="1">
+        <input type="number" class="input_number" t-ref="inputNumber"
+               t-on-change="_onSelectNumber"/>
+    </t>
+
+</templates>
