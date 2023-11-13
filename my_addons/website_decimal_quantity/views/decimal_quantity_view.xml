@@ -1,0 +1,8 @@
+<odoo>
+    <template id="cart_decimal" inherit_id="website_sale.cart_lines"
+              name="Cart lines">
+        <xpath expr="//input[@class='js_quantity form-control quantity']" position="replace">
+             <input type="text" class="js_quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="round(line.product_uom_qty,1)" />
+        </xpath>
+    </template>
+</odoo>
