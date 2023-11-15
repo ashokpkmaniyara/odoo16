@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--view for the threshold quantity fields in settings -->
+    <record id="threshold_quantity_in_tree" model="ir.ui.view">
+        <field name="name">threshold.quantity.view</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id"
+               ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='manage_product_packaging']"
+                   position="after">
+                <div class="col-12 col-lg-6 o_setting_box"
+                     id="stock_warning">
+                    <div class="o_setting_left_pane">
+                        <field name="stock_warning"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="stock_warning"/>
+                        <div class="text-muted">
+                            Enable to set the stock warning
+                        </div>
+                        <div class="content-group">
+                            <div class="mt8"
+                                 attrs="{'invisible': [('stock_warning', '=', False)]}">
+                                <group>
+                                    <field name="threshold_qty"/>
+                                    <field name="product_id"/>
+                                    <field name="warehouse_id"/>
+                                </group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

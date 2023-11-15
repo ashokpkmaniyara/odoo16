@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="stock_warning_email_template" model="mail.template">
+            <field name="name">Stock warning email</field>
+            <field name="model_id" ref="stock_warning_email.model_stock_warning"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;align:center;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <div style="margin: 0px; padding: 0px; font-size: 20px;">
+                            <span style="color:red;font-size:25px;"><B>STOCK WARNING!</B></span><br/>
+                            Product   : <t t-esc="ctx['product']"/><br/>
+                            Quantity  : <t t-esc="ctx['available_qty']"/><br/>
+                            Threshold : <t t-esc="ctx['threshold_qty']"/><br/>
+                            Warehouse : <t t-esc="ctx['warehouse']"/><br/>
+                            Company   : <t t-esc="ctx['company_name']"/><br/>
+                            <span style="color:red;">The stock of the product is low</span><br/><br/>
+                            <a t-attf-href="/web#id={{ctx['product_id']}}&amp;cids=1&amp;menu_id=246&amp;action=423&amp;model=product.product&amp;view_type=form"
+                               style="align: center;text-align: center;background-color: #875a7b;color: white;padding: 15px 32px;border-radius: 8px;font-size: 13px;">
+                                View
+                            </a>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
